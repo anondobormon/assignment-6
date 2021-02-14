@@ -16,7 +16,9 @@ const KEY = '15674931-a9d714b6e9d654524df198e00&q';
 
 // show images 
 const showImages = (images) => {
+  // imagesArea.innerHTML = '';
   imagesArea.style.display = 'block';
+  
   gallery.innerHTML = '';
   // show gallery title
   galleryHeader.style.display = 'flex';
@@ -40,20 +42,17 @@ const getImages = (query) => {
       // console.log(data.hits.length) 
     // showImages(data.hits)
     )
-   
 }
 
-const errorData = error => {
-  console.log(error.length);
-if( error.length <= 0){
-  console.log('error')
+const errorData = apiData => {
+  console.log(apiData.length);
+if( apiData.length <= 0){
+  // console.log('error')
       errorMassage()
     }
     else{
-      showImages(error)
+      showImages(apiData)
     }
-    
-
 }
  
 
@@ -142,32 +141,37 @@ const changeSlide = (index) => {
 
 searchBtn.addEventListener('click', function () {
   allData()
+  document.getElementById('doration').value = '';
+  document.getElementById('search').value = '';
+  
 })
 
 
 const allData = () => {
+  document.getElementById('main-image-slider').style.display = 'block';
   document.querySelector('.main').style.display = 'none';
   clearInterval(timer);
   var search = document.getElementById('search');
   getImages(search.value)
   sliders.length = 0;
-  
 }
 
-// const searchEnter = document.getElementById('search');
+//press enter for search btn
 search.addEventListener('keyup', (e) => {
     if(e.keyCode === 13){
       allData()
+      document.getElementById('search').value = '';
     }
 })
 
-sliderBtn.addEventListener('click', function () {
 
+
+sliderBtn.addEventListener('click', function () {
   createSlider()
 })
 
+//press enter for slide btn
 const timeInputBar = document.getElementById('doration');
-
 timeInputBar.addEventListener('keyup', (e) => {
   if(e.keyCode === 13){
     createSlider()
@@ -175,18 +179,23 @@ timeInputBar.addEventListener('keyup', (e) => {
 })
 
 
-
+//error message
 const errorMassage = () => {
   document.getElementById('alertModal').style.display = 'block';
-  // document.getElementById('main-image-slider')
-  mainSliderDiv.style.display = 'none';
-  // document.getElementById('slider-gallery').style.display = 'none';
-  // document.getElementsByClassName('images').style.display = 'none';
-  
+  document.getElementById('main-image-slider').style.display = 'none';
 }
 
+//error modal
+const alertSection = document.getElementById('alertModal')
 document.getElementById('close-btn').addEventListener('click', function(){
-  document.getElementById('alertModal').style.display = 'none';
+  alertSection.style.display = 'none';
+})
+
+//error modal press enter key
+alertSection.addEventListener('keyup', (e) => {
+  if(e.keyCode === 13){
+    alertSection.style.display = 'none';
+  }
 })
 
 
